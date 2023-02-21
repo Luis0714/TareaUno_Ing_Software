@@ -20,6 +20,7 @@ public class ManejoArchivo {
         if(!folder.exists()){
             throw new NullPointerException("No se encuentra la carpeta indicada");
         }
+
         File[] archivosEncontrados = folder.listFiles();
         ArrayList<File> archivos = new ArrayList<>();
 
@@ -27,6 +28,9 @@ public class ManejoArchivo {
             if (file.isFile() && file.getName().endsWith(".txt")) {
                 archivos.add(file);
             }
+        }
+        if (archivos.size() == 0){
+            throw new NullPointerException("No se encontraron archivos de texto en la carpeta");
         }
         return  archivos;
     }

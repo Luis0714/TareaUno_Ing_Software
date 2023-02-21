@@ -23,6 +23,7 @@ public class LogicaArchivo {
     public int obtenerCantiadadTotalVecesPalabraEnArchivos(String palabraBuscar){
         ArrayList<ArchivoResumen> resumenArchivos = this.ObtenerResumenArchivos(palabraBuscar);
         int catidad = 0;
+
         for (ArchivoResumen resumenArchivo: resumenArchivos) {
             System.out.println(resumenArchivo);
             catidad += resumenArchivo.getCatidad();
@@ -32,21 +33,22 @@ public class LogicaArchivo {
 
     public ArrayList<ArchivoResumen> ObtenerResumenArchivos(String palabraBuscar){
         ArrayList<ArchivoResumen> resumenArchivos = new ArrayList<>();
-        ArrayList<File> archivos = this.manejoArchivo.obtenerArchivos();
+        try {
+            ArrayList<File> archivos = this.manejoArchivo.obtenerArchivos();
+            
+            for (File archivo : archivos) {
 
-        for (File archivo : archivos) {
-            try {
-                String textoArchivo = this.leerArchivo(archivo);
-                textoArchivo = textoArchivo.toUpperCase();
-                palabraBuscar = palabraBuscar.toUpperCase();
+                    String textoArchivo = this.leerArchivo(archivo);
+                    textoArchivo = textoArchivo.toUpperCase();
+                    palabraBuscar = palabraBuscar.toUpperCase();
 
-                int cantidad = this.obtenerCantiadadVecesPalabraEnArchivo(textoArchivo, palabraBuscar);
-                resumenArchivos.add(new ArchivoResumen(archivo.getName(),cantidad));
+                    int cantidad = this.obtenerCantiadadVecesPalabraEnArchivo(textoArchivo, palabraBuscar);
+                    resumenArchivos.add(new ArchivoResumen(archivo.getName(),cantidad));
 
-            }catch (NullPointerException | IOException exception){
-                System.out.println(exception.getMessage());
-            }
-    }
+                }
+        }catch (NullPointerException | IOException exception){
+            System.out.println(exception.getMessage());
+        }
         return resumenArchivos;
     }
 
